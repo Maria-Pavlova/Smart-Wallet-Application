@@ -27,28 +27,29 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
     @Column
     private String profilePicture;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Country country;
 
-    @Column(nullable = false)
     private boolean isActive;
 
     @Column(nullable = false)
@@ -59,8 +60,10 @@ public class User {
 
     @OneToMany(mappedBy = "owner")
     @Fetch(FetchMode.JOIN)
+    @OrderBy("createdOn DESC")
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner")
+    @OrderBy("createdOn ASC")
     private List<Wallet> wallets = new ArrayList<>();
 }

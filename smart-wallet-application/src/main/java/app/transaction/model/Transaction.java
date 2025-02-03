@@ -48,7 +48,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
     private String failureReason;

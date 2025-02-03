@@ -3,6 +3,7 @@ package app.subscription.service;
 import app.subscription.model.Subscription;
 import app.subscription.model.SubscriptionPeriod;
 import app.subscription.model.SubscriptionStatus;
+import app.subscription.model.SubscriptionType;
 import app.subscription.repository.SubscriptionRepository;
 import app.user.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class SubscriptionService {
                 .owner(user)
                 .status(SubscriptionStatus.ACTIVE)
                 .period(SubscriptionPeriod.MONTHLY)
+                .type(SubscriptionType.DEFAULT)
                 .price(new BigDecimal("0.00"))
                 .renewalAllowed(true)
                 .createdOn(now)
