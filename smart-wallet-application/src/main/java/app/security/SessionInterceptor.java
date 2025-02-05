@@ -29,7 +29,6 @@ public class SessionInterceptor implements HandlerInterceptor {
 
         String endpoint = request.getServletPath();
         if (UNAUTHENTICATED_ENDPOINTS.contains(endpoint)) {
-            // no session
             return true;
         }
 
@@ -43,13 +42,19 @@ public class SessionInterceptor implements HandlerInterceptor {
         User user = userService.getById(userIdFromSession);
 
         if (!user.isActive()) {
-
             session.invalidate();
             response.sendRedirect("/");
             return false;
         }
 
+        if (handler instanceof HandlerMethod handlerMethod
+                && (handlerMethod.hasMethodAnnotation(RequireAdminRole.class)
+                && user.getRole() != UserRole.ADMIN)) {
 
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                response.getWriter().write("Access denied, required permissions are missing.");
+                return false;
+        }
 
         return true;
     }

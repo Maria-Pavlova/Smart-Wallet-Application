@@ -6,6 +6,7 @@ import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,16 +18,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
 
     public static final String USER_ID_FROM_SESSION = "user_id";
     private final UserService userService;
 
-    @Autowired
-    public IndexController(UserService userService) {
-        this.userService = userService;
+    @GetMapping("/")
+    public String getIndexPage() {
+        return "index";
     }
-
 
     @GetMapping("/register")
     public ModelAndView getRegisterForm(){
@@ -45,7 +46,7 @@ public class IndexController {
         User registeredUser =
                 userService.register(registerRequest);
         activateUserSession(session, registeredUser.getId());
-        ModelAndView modelAndView = new ModelAndView("redirect:/home");
+        ModelAndView modelAndView = new ModelAndView("redirect:/login");
         modelAndView.addObject("user", registeredUser);
         return modelAndView;
     }

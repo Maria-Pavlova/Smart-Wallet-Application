@@ -99,4 +99,23 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public void switchStatus(UUID id) {
+        User user = getById(id);
+        user.setActive(!user.isActive());
+        user.setUpdatedOn(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+    public void switchRole(UUID id) {
+        User user = getById(id);
+        if (user.getRole() == UserRole.USER){
+            user.setRole(UserRole.ADMIN);
+        }
+        if (user.getRole() == UserRole.ADMIN){
+            user.setRole(UserRole.USER);
+        }
+        user.setUpdatedOn(LocalDateTime.now());
+        userRepository.save(user);
+    }
 }

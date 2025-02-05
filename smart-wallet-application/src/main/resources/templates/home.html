@@ -69,15 +69,15 @@
             </svg>
           </a>
         </div>
-        <div class="func-block admin-func-block">
+        <div class="func-block admin-func-block"  th:if="${user.role.name() == 'ADMIN'}" >
           <span>Admin</span>
-          <a href="/users">
+          <a th:href="@{/users}" th:classappend="${clickedButton == 'users'} ? 'active' : ''">
             <p>Users</p>
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
             </svg>
           </a>
-          <a href="/reports">
+          <a th:href="@{/reports}" th:classappend="${clickedButton == 'reports'} ? 'active' : ''">
             <p>Reports</p>
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
@@ -85,7 +85,7 @@
           </a>
         </div>
         <div class="func-block">
-          <a class="logout" href="/logout">
+          <a class="logout" th:href="@{/logout}" th:classappend="${clickedButton == 'logout'} ? 'active' : ''">
             <p>Logout</p>
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"></path>
@@ -99,8 +99,8 @@
   <div class="home-section">
     <div class="single-section-box home-profile-information">
       <div class="profile-header">
-        <img src="https://avatars.githubusercontent.com/u/122465228?v=4" alt="Profile Picture" class="profile-avatar">
-        <h2 class="profile-name" th:text="${user.username}">Mandarin0016</h2>
+        <img th:src="${#strings.isEmpty(user.profilePicture) ? 'https://cdn4.iconfinder.com/data/icons/famous-character-vol-2-flat/48/Avatar_Famous_Characters-07-512.png' : user.profilePicture}" alt="Profile Picture" class="profile-avatar">
+        <h2 class="profile-name" th:text="${#strings.isEmpty(user.firstName)} ? ${user.username} : ${user.firstName} + ' ' + ${user.lastName}"></h2>
         <div class="profile-status-role-container">
           <p th:if="${user.isActive()}" class="active-profile">ACTIVE</p>
           <p th:if="${!user.isActive()}" class="active-profile">INACTIVE</p>
@@ -108,7 +108,7 @@
         <div class="details-section">
           <div class="details-section-container">
             <strong>User id: </strong>
-            <p th:text="${user.id}">55b23a12-71a1-4ccd-918d-08b2b09409b0</p>
+            <p th:text="${user.id}"></p>
           </div>
         </div>
       </div>
@@ -130,7 +130,7 @@
           <p th:text="${#strings.capitalize(#strings.toLowerCase(user.country))}">Bulgaria</p>
         </div>
       </div>
-      <a th:href="@{/users/{id}/profile (id = ${user.id})}" class="profile-actions-button">
+      <a th:href="@{/users/profile}" class="profile-actions-button">
         <p>Edit Profile</p>
         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
